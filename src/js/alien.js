@@ -6,8 +6,8 @@ export class Alien {
 
     x = null;
     y = null;
-
     node = null;
+    isDead = false;
 
     blocks = [];
 
@@ -49,5 +49,7 @@ export class Alien {
         this.node.style.top = this.y + 'px';
         this.node.style.left = this.x + 'px';
     }
+
+
 
 }

@@ -2,13 +2,14 @@ import {Game} from "./game";
 
 export class Shot {
     static SHOT_WIDTH = 4;
-    static SHOT_HEIGHT = 30;
+    static SHOT_HEIGHT = 20;
 
     x = null;
     y = null;
     node = null;
 
     isOutOfField = false;
+    isDead = false;
 
     constructor(x, y) {
         this.x = x;
@@ -22,6 +23,7 @@ export class Shot {
             this.update();
             this.draw();
         }, 1000 / Game.FPS);
+    //    200
     }
     create() {
         const gameField = document.querySelector('.game-field');
@@ -41,9 +43,8 @@ export class Shot {
     }
 
     update() {
-        // todo: сделать так, чтобы выстрел исчезал после того, как скроется за полем
         if (this.x < 0 || this.y < 0) {
-            this.isOutOfField = true;
+            this.isDead = true;
         }
     }
 }

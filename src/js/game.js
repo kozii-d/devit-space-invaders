@@ -10,7 +10,7 @@ export class Game {
     spaceship = null
     aliens = [];
     shots = [];
-
+    score = 0;
     isReverse = false;
 
     keyState = {
@@ -23,7 +23,7 @@ export class Game {
         this.create();
         this.spaceship = new Spaceship();
         this.spawnAliens();
-        // this.moveAliens();
+        this.moveAliens();
         this.addEvents();
         this.updateLoop();
     }
@@ -69,11 +69,23 @@ export class Game {
 
     checkShots() {
         this.shots.forEach(shot => {
-            if (shot.isOutOfField) {
+            if (shot.isDead) {
                 shot.node.remove();
             }
+            this.aliens.forEach(alien => {
+                // регистрация попаданий
+                if ((alien.y >= shot.y - Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK && alien.y <= shot.y)
+                && (alien.x >= shot.x - Block.BLOCK_SIZE * Alien.ALIEN_WIDTH_IN_BLOCK && alien.x <= shot.x)) {
+                    shot.isDead = true;
+                    shot.node.remove();
+                    alien.isDead = true;
+                    alien.node.remove();
+                    this.score++;
+                }
+            });
         });
-        this.shots = this.shots.filter(shot => !shot.isOutOfField);
+        this.shots = this.shots.filter(shot => !shot.isDead);
+        this.aliens = this.aliens.filter(aliens => !aliens.isDead);
     }
 
     spawnAliens() {
@@ -88,17 +100,17 @@ export class Game {
         // todo: исправить костыль
         this.aliens.pop().node.remove();
     }
-    // todo: починить склеивание пришельцев
+
     moveAliens () {
         const firstAlien = this.aliens[0];
         const lastAlien = this.aliens[this.aliens.length - 1];
 
         setInterval(() => {
 
-            if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 6)) {
+            if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 5)) {
                 this.isReverse = true;
             }
-            if (firstAlien.x < Block.BLOCK_SIZE) {
+            if (firstAlien.x <= Block.BLOCK_SIZE) {
                 this.isReverse = false;
             }
 
@@ -114,6 +126,6 @@ export class Game {
                 alien.draw();
             }
 
-        }, 200);
+        }, 100);
     }
 }
