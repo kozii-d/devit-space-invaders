@@ -19,7 +19,7 @@ export class Shot {
         this.draw();
 
         setInterval(() => {
-            this.y -= 5;
+            this.y -= 7;
             this.update();
             this.draw();
         }, 1000 / Game.FPS);

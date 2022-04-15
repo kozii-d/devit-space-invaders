@@ -12,10 +12,15 @@ export class Game {
     shots = [];
     score = 0;
     isReverse = false;
+    isEndGame = false;
 
     keyState = {
         ArrowLeft: false,
         ArrowRight: false,
+        a: false,
+        d: false,
+        ф: false,
+        в: false,
         ' ': false // space key
     };
 
@@ -41,10 +46,10 @@ export class Game {
 
     updateLoop() {
         setInterval(() => {
-            if (this.keyState.ArrowLeft) {
+            if (this.keyState.ArrowLeft || this.keyState.a || this.keyState.ф) {
                 this.spaceship.move('moveLeft');
             }
-            if (this.keyState.ArrowRight) {
+            if (this.keyState.ArrowRight || this.keyState.d || this.keyState.в) {
                 this.spaceship.move('moveRight');
             }
             if (this.keyState[' ']) {
@@ -53,6 +58,11 @@ export class Game {
             }
 
             this.checkShots();
+            this.checkEndGame();
+
+            if (this.isEndGame) {
+            //    todo: сделать конец игры
+            }
 
         }, 1000 / Game.FPS);
     }
@@ -81,6 +91,7 @@ export class Game {
                     alien.isDead = true;
                     alien.node.remove();
                     this.score++;
+                    console.log(this.score)
                 }
             });
         });
@@ -126,6 +137,27 @@ export class Game {
                 alien.draw();
             }
 
-        }, 100);
+        }, 400);
+
+        setInterval(() => {
+            for (let i = 0; i < this.aliens.length; i++) {
+                const alien = this.aliens[i]
+
+                alien.y += Block.BLOCK_SIZE;
+                alien.draw();
+            }
+        }, 10000);
+    }
+
+    checkEndGame() {
+        const lastAlien = this.aliens[this.aliens.length - 1];
+
+        if (this.spaceship.y <= lastAlien.y + (Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK)) {
+            this.isEndGame = true;
+        }
+
+        if (!this.aliens.length) {
+            this.isEndGame = true;
+        }
     }
 }

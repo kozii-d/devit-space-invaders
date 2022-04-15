@@ -61,7 +61,7 @@ export class Spaceship {
 
     shot() {
         const time = new Date().getTime();
-        if (this.lastShot && time - this.lastShot < 1000) {
+        if (this.lastShot && time - this.lastShot < 500) {
             return null;
         }
         this.lastShot = time;
