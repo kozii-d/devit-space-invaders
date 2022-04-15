@@ -1,0 +1,36 @@
+@import '~normalize.css';
+@import 'var';
+
+// Blocks
+@import "game-field";
+@import "block";
+@import "spaceship";
+@import "shot";
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 100%;
+  font-family: sans-serif;
+  font-size: 16px;
+
+  z-index: 3;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+
