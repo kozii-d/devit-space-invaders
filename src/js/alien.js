@@ -17,6 +17,7 @@ export class Alien {
         this.y = y;
         this.node = this.create();
         this.draw();
+        // this.moveLoop();
     }
 
     create() {
@@ -50,6 +51,13 @@ export class Alien {
     draw() {
         this.node.style.top = this.y + 'px';
         this.node.style.left = this.x + 'px';
+    }
+
+    moveLoop() {
+        setInterval(() => {
+            this.x += Block.BLOCK_SIZE;
+            this.draw();
+        }, 1000);
     }
 
 }
