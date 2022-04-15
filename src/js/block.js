@@ -1,5 +1,5 @@
 export class Block {
-    static BLOCK_SIZE = 20;
+    static BLOCK_SIZE = 15;
 
     x = 0;
     y = 0;
@@ -13,9 +13,7 @@ export class Block {
     }
 
     create() {
-        // const gameField = document.querySelector('.game-field');
         const element = document.createElement('div');
-        // gameField.appendChild(element);
         element.classList.add('block');
         element.style.height = Block.BLOCK_SIZE + 'px';
         element.style.width = Block.BLOCK_SIZE + 'px';

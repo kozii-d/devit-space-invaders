@@ -4,8 +4,8 @@ export class Alien {
     static ALIEN_HEIGHT_IN_BLOCK = 3;
     static ALIEN_WIDTH_IN_BLOCK = 3;
 
-    x = 50;
-    y = 50;
+    x = null;
+    y = null;
 
     node = null;
 
@@ -17,7 +17,6 @@ export class Alien {
         this.y = y;
         this.node = this.create();
         this.draw();
-        // this.moveLoop();
     }
 
     create() {
@@ -28,7 +27,6 @@ export class Alien {
         alien.classList.add('alien');
         alien.style.height = Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK + 'px';
         alien.style.width = Block.BLOCK_SIZE * Alien.ALIEN_WIDTH_IN_BLOCK + 'px';
-
 
         this.blocks.push(
             new Block(0, 0),
@@ -44,20 +42,12 @@ export class Alien {
             block.node.classList.add('spaceship__block');
         });
 
-
         return alien;
     }
 
     draw() {
         this.node.style.top = this.y + 'px';
         this.node.style.left = this.x + 'px';
-    }
-
-    moveLoop() {
-        setInterval(() => {
-            this.x += Block.BLOCK_SIZE;
-            this.draw();
-        }, 1000);
     }
 
 }

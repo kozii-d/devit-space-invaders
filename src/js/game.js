@@ -23,9 +23,9 @@ export class Game {
         this.create();
         this.spaceship = new Spaceship();
         this.spawnAliens();
+        // this.moveAliens();
         this.addEvents();
         this.updateLoop();
-        this.moveAliens();
     }
 
     create() {
@@ -77,11 +77,6 @@ export class Game {
     }
 
     spawnAliens() {
-        const gameField = document.querySelector('.game-field');
-        const aliansArea = document.createElement('div');
-        aliansArea.classList.add('aliens-area');
-        gameField.appendChild(aliansArea);
-
         for (let height = Block.BLOCK_SIZE, width = Block.BLOCK_SIZE; height < Game.GAME_HEIGHT / 100 * 40;) {
             if (width > Game.GAME_WIDTH / 100 * 60) {
                 height += Alien.ALIEN_HEIGHT_IN_BLOCK * Block.BLOCK_SIZE + Block.BLOCK_SIZE;
@@ -93,28 +88,32 @@ export class Game {
         // todo: исправить костыль
         this.aliens.pop().node.remove();
     }
-
+    // todo: починить склеивание пришельцев
     moveAliens () {
-        setInterval(() => {
-            this.aliens.forEach(alien => {
-                if (alien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 6)) {
-                    this.isReverse = true;
-                }
+        const firstAlien = this.aliens[0];
+        const lastAlien = this.aliens[this.aliens.length - 1];
 
-                if (alien.x < Block.BLOCK_SIZE) {
-                    this.isReverse = false;
-                }
+        setInterval(() => {
+
+            if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 6)) {
+                this.isReverse = true;
+            }
+            if (firstAlien.x < Block.BLOCK_SIZE) {
+                this.isReverse = false;
+            }
+
+            for (let i = 0; i < this.aliens.length; i++) {
+                const alien = this.aliens[i]
 
                 if (this.isReverse) {
                     alien.x -= Block.BLOCK_SIZE;
-                    alien.draw();
 
                 } else {
                     alien.x += Block.BLOCK_SIZE;
-                    alien.draw();
-
                 }
-            })
-        }, 500);
+                alien.draw();
+            }
+
+        }, 200);
     }
 }
