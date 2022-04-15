@@ -1,11 +1,14 @@
 import {Block} from "./block";
 import {Shot} from "./shot";
+import {Game} from "./game";
 
 export class Spaceship {
     static SPEED = 7;
+    static SPACESHIP_HEIGHT_IN_BLOCK = 2;
+    static SPACESHIP_WIDTH_IN_BLOCK = 3;
 
-    x = 600;
-    y = 400;
+    x = (Game.GAME_WIDTH / 2) - (Block.BLOCK_SIZE * 1.5);
+    y = 450;
     blocks = [];
     node = null;
     lastShot = null;
@@ -20,15 +23,15 @@ export class Spaceship {
 
         gameField.appendChild(spaceShipBody);
         spaceShipBody.classList.add('spaceship');
-        spaceShipBody.style.height = Block.BLOCK_SIZE * 2 + 'px';
-        spaceShipBody.style.width = Block.BLOCK_SIZE * 3 + 'px';
+        spaceShipBody.style.height = Block.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 'px';
+        spaceShipBody.style.width = Block.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK + 'px';
 
 
         this.blocks.push(
             new Block(Block.BLOCK_SIZE, 0),
             new Block(0, Block.BLOCK_SIZE),
             new Block(Block.BLOCK_SIZE, Block.BLOCK_SIZE),
-            new Block(Block.BLOCK_SIZE * 2, Block.BLOCK_SIZE),
+            new Block(Block.BLOCK_SIZE * 2, Block.BLOCK_SIZE)
         )
 
         this.blocks.forEach(block => {
@@ -46,10 +49,10 @@ export class Spaceship {
     }
 
     move(direction) {
-        if (direction === 'moveLeft') {
+        if (direction === 'moveLeft' && this.x > 5) {
             this.x -= Spaceship.SPEED;
         }
-        if (direction === 'moveRight') {
+        if (direction === 'moveRight' && this.x < Game.GAME_WIDTH - Block.BLOCK_SIZE * 3 - 5) {
             this.x += Spaceship.SPEED;
         }
 
@@ -63,7 +66,6 @@ export class Spaceship {
         }
         this.lastShot = time;
         return new Shot(this.x + Block.BLOCK_SIZE * 1.5 - 2, this.y);
-
     }
 
 }
