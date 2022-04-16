@@ -35,6 +35,7 @@ export class Spaceship {
         )
 
         this.blocks.forEach(block => {
+            block.node.style.backgroundColor = '#0f0';
             spaceShipBody.appendChild(block.node);
             block.node.classList.add('spaceship__block');
         });
@@ -49,10 +50,10 @@ export class Spaceship {
     }
 
     move(direction) {
-        if (direction === 'moveLeft' && this.x > 5) {
+        if (direction === 'moveLeft' && this.x > 6) {
             this.x -= Spaceship.SPEED;
         }
-        if (direction === 'moveRight' && this.x < Game.GAME_WIDTH - Block.BLOCK_SIZE * 3 - 5) {
+        if (direction === 'moveRight' && this.x < Game.GAME_WIDTH - Block.BLOCK_SIZE * 3 - 6) {
             this.x += Spaceship.SPEED;
         }
 

@@ -10,6 +10,7 @@ export class Game {
     spaceship = null
     aliens = [];
     shots = [];
+    intervals = [];
     score = 0;
     isReverse = false;
     isEndGame = false;
@@ -25,6 +26,7 @@ export class Game {
     };
 
     constructor() {
+        document.body.innerHTML = '';
         this.create();
         this.spaceship = new Spaceship();
         this.spawnAliens();
@@ -39,13 +41,36 @@ export class Game {
         game.style.height = Game.GAME_HEIGHT + 'px';
         game.style.width = Game.GAME_WIDTH + 'px';
 
+        const score = document.createElement('p');
+        score.classList.add('score');
+        score.style.marginLeft = `${Block.BLOCK_SIZE}px`;
+        score.textContent = 'Score: 0000';
+        game.appendChild(score);
+
+        const modal = document.createElement('div');
+        const modalDialog = document.createElement('div');
+        const modalContent = document.createElement('div');
+        const modalHeader = document.createElement('h1');
+        const modalButton = document.createElement('button');
+        modalHeader.textContent = 'GAME OVER';
+        modalButton.textContent = 'PLAY AGAIN';
+        modal.classList.add('modal');
+        modalDialog.classList.add('modal__dialog');
+        modalContent.classList.add('modal__content');
+        modalHeader.classList.add('modal__header');
+        modalButton.classList.add('modal__btn');
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalButton);
+        modal.appendChild(modalDialog).appendChild(modalContent);
+        game.appendChild(modal);
+
         document.body.appendChild(game);
 
         return game;
     }
 
     updateLoop() {
-        setInterval(() => {
+        const gameLoop = setInterval(() => {
             if (this.keyState.ArrowLeft || this.keyState.a || this.keyState.ф) {
                 this.spaceship.move('moveLeft');
             }
@@ -58,13 +83,20 @@ export class Game {
             }
 
             this.checkShots();
+            this.updateScore();
             this.checkEndGame();
 
             if (this.isEndGame) {
             //    todo: сделать конец игры
+                const modal = document.querySelector('.modal');
+                modal.style.display = 'block';
+                this.intervals.forEach(interval => {
+                    clearInterval(interval);
+                })
             }
 
         }, 1000 / Game.FPS);
+        this.intervals.push(gameLoop);
     }
 
     addEvents() {
@@ -91,7 +123,6 @@ export class Game {
                     alien.isDead = true;
                     alien.node.remove();
                     this.score++;
-                    console.log(this.score)
                 }
             });
         });
@@ -100,7 +131,7 @@ export class Game {
     }
 
     spawnAliens() {
-        for (let height = Block.BLOCK_SIZE, width = Block.BLOCK_SIZE; height < Game.GAME_HEIGHT / 100 * 40;) {
+        for (let height = Block.BLOCK_SIZE * 5, width = Block.BLOCK_SIZE; height < Game.GAME_HEIGHT / 100 * 40;) {
             if (width > Game.GAME_WIDTH / 100 * 60) {
                 height += Alien.ALIEN_HEIGHT_IN_BLOCK * Block.BLOCK_SIZE + Block.BLOCK_SIZE;
                 width = Block.BLOCK_SIZE;
@@ -116,7 +147,7 @@ export class Game {
         const firstAlien = this.aliens[0];
         const lastAlien = this.aliens[this.aliens.length - 1];
 
-        setInterval(() => {
+        const moveAliensX = setInterval(() => {
 
             if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 5)) {
                 this.isReverse = true;
@@ -139,14 +170,15 @@ export class Game {
 
         }, 400);
 
-        setInterval(() => {
+        const moveAliensY = setInterval(() => {
             for (let i = 0; i < this.aliens.length; i++) {
                 const alien = this.aliens[i]
 
                 alien.y += Block.BLOCK_SIZE;
                 alien.draw();
             }
-        }, 10000);
+        }, 1000);
+        this.intervals.push(moveAliensX, moveAliensY);
     }
 
     checkEndGame() {
@@ -159,5 +191,14 @@ export class Game {
         if (!this.aliens.length) {
             this.isEndGame = true;
         }
+    }
+
+    updateScore() {
+        const score = document.querySelector('.score');
+        score.textContent = `Score: ${this.score * 100}`;
+    }
+
+    restartGame() {
+        return new Game();
     }
 }
