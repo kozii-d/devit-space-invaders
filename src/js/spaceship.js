@@ -9,9 +9,11 @@ export class Spaceship {
 
     x = (Game.GAME_WIDTH / 2) - (Block.BLOCK_SIZE * 1.5);
     y = 450;
+    life = 3;
     blocks = [];
     node = null;
     lastShot = null;
+    isDead = false;
     constructor() {
         this.node = this.create();
         this.draw();

@@ -1,6 +1,7 @@
 import {Game} from "./game";
 
-export class Shot {
+export class AlienShot {
+
     static SHOT_WIDTH = 4;
     static SHOT_HEIGHT = 20;
 
@@ -16,15 +17,15 @@ export class Shot {
         this.node = this.create();
 
         this.draw();
-        this.loop()
 
+        this.loop();
     }
     create() {
         const gameField = document.querySelector('.game-field');
         const shot = document.createElement('div');
-        shot.style.height = Shot.SHOT_HEIGHT + 'px';
-        shot.style.width = Shot.SHOT_WIDTH + 'px';
-
+        shot.style.height = AlienShot.SHOT_HEIGHT + 'px';
+        shot.style.width = AlienShot.SHOT_WIDTH + 'px';
+        shot.style.backgroundColor = 'red';
         gameField.appendChild(shot);
         shot.classList.add('shot');
 
@@ -37,20 +38,22 @@ export class Shot {
     }
 
     update() {
-        if (this.x < 0 || this.y < 0) {
+        if (this.x > Game.GAME_WIDTH || this.y > Game.GAME_HEIGHT - AlienShot.SHOT_HEIGHT) {
             this.isDead = true;
+            this.node.remove();
         }
     }
 
     loop() {
-        const shotLoop = setInterval(() => {
-            if (this.isDead) {
-                this.node.remove();
-                clearInterval(shotLoop);
-            }
-            this.y -= 7;
-            this.update();
-            this.draw();
+          const shotLoop = setInterval(() => {
+              if (this.isDead) {
+                  // this.node.remove();
+                  clearInterval(shotLoop);
+              }
+              this.y += 7;
+              this.update();
+              this.draw();
         }, 1000 / Game.FPS);
     }
 }
+

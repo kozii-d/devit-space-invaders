@@ -1,4 +1,6 @@
 import {Block} from "./block";
+import {AlienShot} from "./alienShot";
+import {Game} from "./game";
 
 export class Alien {
     static ALIEN_HEIGHT_IN_BLOCK = 3;
@@ -10,13 +12,17 @@ export class Alien {
     isDead = false;
 
     blocks = [];
+    intervals = [];
+    shots = [];
 
 
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.node = this.create();
+        this.shot();
         this.draw();
+        this.updateLoop();
     }
 
     create() {
@@ -50,6 +56,38 @@ export class Alien {
         this.node.style.left = this.x + 'px';
     }
 
+    randomInteger(min, max) {
+        let rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
+    }
+
+    shot() {
+        const alienShot = setInterval(() => {
+            this.shots.push(new AlienShot(this.x + Block.BLOCK_SIZE * 1.5, this.y + Block.BLOCK_SIZE * 2));
+        }, this.randomInteger(5000, 35000));
+        this.intervals.push(alienShot);
+    }
+
+    updateLoop() {
+       const alienLoop = setInterval(() => {
+
+           this.shots.forEach(shot => {
+               if (shot.isDead) {
+                   shot.node.remove();
+               }
+           })
+
+           this.shots = this.shots.filter(shot => !shot.isDead);
+
+           if (this.isDead) {
+                this.intervals.forEach(interval => {
+                    clearInterval(interval);
+                })
+            }
 
 
+        }, 1000 / Game.FPS);
+        this.intervals.push(alienLoop);
+
+    }
 }

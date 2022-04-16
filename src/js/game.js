@@ -1,6 +1,7 @@
 import {Spaceship} from "./spaceship";
 import {Alien} from "./alien";
 import {Block} from "./block";
+import {AlienShot} from "./alienShot";
 
 export class Game {
     static FPS = 60;
@@ -65,12 +66,21 @@ export class Game {
 
             this.checkShots();
             this.updateScore();
+            this.isSpaceshipDead();
             this.checkEndGame();
+            this.reverse();
+
+
 
             if (this.isEndGame) {
             //    todo: сделать конец игры
                 const modal = document.querySelector('.modal');
                 modal.style.display = 'block';
+                this.aliens.forEach(alien => {
+                    alien.intervals.forEach(interval => {
+                        clearInterval(interval);
+                    })
+                })
                 this.intervals.forEach(interval => {
                     clearInterval(interval);
                 })
@@ -125,17 +135,17 @@ export class Game {
     }
 
     moveAliens () {
-        const firstAlien = this.aliens[0];
-        const lastAlien = this.aliens[this.aliens.length - 1];
+        // const firstAlien = this.aliens[0];
+        // const lastAlien = this.aliens[this.aliens.length - 1];
 
         const moveAliensX = setInterval(() => {
 
-            if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 5)) {
-                this.isReverse = true;
-            }
-            if (firstAlien.x <= Block.BLOCK_SIZE) {
-                this.isReverse = false;
-            }
+            // if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 5)) {
+            //     this.isReverse = true;
+            // }
+            // if (firstAlien.x <= Block.BLOCK_SIZE) {
+            //     this.isReverse = false;
+            // }
 
             for (let i = 0; i < this.aliens.length; i++) {
                 const alien = this.aliens[i]
@@ -149,7 +159,7 @@ export class Game {
                 alien.draw();
             }
 
-        }, 100);
+        }, 700);
 
         const moveAliensY = setInterval(() => {
             for (let i = 0; i < this.aliens.length; i++) {
@@ -158,7 +168,7 @@ export class Game {
                 alien.y += Block.BLOCK_SIZE;
                 alien.draw();
             }
-        }, 1000);
+        }, 10000);
         this.intervals.push(moveAliensX, moveAliensY);
     }
 
@@ -166,6 +176,11 @@ export class Game {
         const lastAlien = this.aliens[this.aliens.length - 1];
 
         if (this.aliens.length === 0) {
+            this.isEndGame = true;
+            return;
+        }
+
+        if (this.spaceship.isDead) {
             this.isEndGame = true;
             return;
         }
@@ -180,6 +195,48 @@ export class Game {
     updateScore() {
         const score = document.querySelector('.score');
         score.textContent = `Score: ${this.score * 100}`;
+    }
+
+    isSpaceshipDead() {
+        // регистрация выстрелов от пришельцев
+        this.aliens.forEach(alien => {
+            alien.shots.forEach(shot => {
+                if ((shot.x >= this.spaceship.x && shot.x <= this.spaceship.x + Block.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK)
+                && (shot.y + AlienShot.SHOT_HEIGHT >= this.spaceship.y && shot.y  + AlienShot.SHOT_HEIGHT <= this.spaceship.y + Block.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK)) {
+                    shot.isDead = true;
+                    this.spaceship.life--;
+                    if (!this.spaceship.life) {
+                        this.isEndGame = true;
+                    }
+                }
+            })
+        })
+    }
+
+    reverse() {
+        // const firstAlien = this.aliens[0];
+        // const lastAlien = this.aliens[this.aliens.length - 1];
+
+        if (this.aliens.length) {
+            this.aliens.forEach(alien => {
+                if (alien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 5)) {
+                    this.isReverse = true;
+                }
+                if (alien.x <= Block.BLOCK_SIZE) {
+                    this.isReverse = false;
+                }
+            })
+        }
+
+        //
+        // if (lastAlien && firstAlien) {
+        //     if (lastAlien.x > Game.GAME_WIDTH - (Block.BLOCK_SIZE * 5)) {
+        //         this.isReverse = true;
+        //     }
+        //     if (firstAlien.x <= Block.BLOCK_SIZE) {
+        //         this.isReverse = false;
+        //     }
+        // }
     }
 
     restartGame() {
