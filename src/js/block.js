@@ -1,5 +1,5 @@
 export class Block {
-    static BLOCK_SIZE = 12;
+    static BLOCK_SIZE = 18;
 
     x = 0;
     y = 0;

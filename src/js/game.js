@@ -26,7 +26,8 @@ export class Game {
     };
 
     constructor() {
-        document.body.innerHTML = '';
+        const game = document.querySelector('.game-field');
+        game.innerHTML = '';
         this.create();
         this.spaceship = new Spaceship();
         this.spawnAliens();
@@ -36,8 +37,7 @@ export class Game {
     }
 
     create() {
-        const game = document.createElement('main');
-        game.classList.add('game-field');
+        const game = document.querySelector('.game-field');
         game.style.height = Game.GAME_HEIGHT + 'px';
         game.style.width = Game.GAME_WIDTH + 'px';
 
@@ -46,25 +46,6 @@ export class Game {
         score.style.marginLeft = `${Block.BLOCK_SIZE}px`;
         score.textContent = 'Score: 0000';
         game.appendChild(score);
-
-        const modal = document.createElement('div');
-        const modalDialog = document.createElement('div');
-        const modalContent = document.createElement('div');
-        const modalHeader = document.createElement('h1');
-        const modalButton = document.createElement('button');
-        modalHeader.textContent = 'GAME OVER';
-        modalButton.textContent = 'PLAY AGAIN';
-        modal.classList.add('modal');
-        modalDialog.classList.add('modal__dialog');
-        modalContent.classList.add('modal__content');
-        modalHeader.classList.add('modal__header');
-        modalButton.classList.add('modal__btn');
-        modalContent.appendChild(modalHeader);
-        modalContent.appendChild(modalButton);
-        modal.appendChild(modalDialog).appendChild(modalContent);
-        game.appendChild(modal);
-
-        document.body.appendChild(game);
 
         return game;
     }
@@ -168,7 +149,7 @@ export class Game {
                 alien.draw();
             }
 
-        }, 400);
+        }, 100);
 
         const moveAliensY = setInterval(() => {
             for (let i = 0; i < this.aliens.length; i++) {
@@ -184,13 +165,16 @@ export class Game {
     checkEndGame() {
         const lastAlien = this.aliens[this.aliens.length - 1];
 
+        if (this.aliens.length === 0) {
+            this.isEndGame = true;
+            return;
+        }
+
         if (this.spaceship.y <= lastAlien.y + (Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK)) {
             this.isEndGame = true;
         }
 
-        if (!this.aliens.length) {
-            this.isEndGame = true;
-        }
+
     }
 
     updateScore() {
