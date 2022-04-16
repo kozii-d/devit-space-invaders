@@ -88,7 +88,6 @@ export class Game {
     addEvents() {
         document.addEventListener('keydown', e => {
             this.keyState[e.key] = true;
-            console.log(e.key)
         });
 
         document.addEventListener('keyup', e => {
