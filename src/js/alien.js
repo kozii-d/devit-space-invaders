@@ -64,7 +64,7 @@ export class Alien {
     shot() {
         const alienShot = setInterval(() => {
             this.shots.push(new AlienShot(this.x + Block.BLOCK_SIZE * 1.5, this.y + Block.BLOCK_SIZE * 2));
-        }, this.randomInteger(5000, 35000));
+        }, this.randomInteger(1000, 35000));
         this.intervals.push(alienShot);
     }
 

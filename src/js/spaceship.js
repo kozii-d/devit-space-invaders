@@ -8,7 +8,7 @@ export class Spaceship {
     static SPACESHIP_WIDTH_IN_BLOCK = 3;
 
     x = (Game.GAME_WIDTH / 2) - (Block.BLOCK_SIZE * 1.5);
-    y = 450;
+    y = Game.GAME_HEIGHT - Block.BLOCK_SIZE * (Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 1);
     life = 3;
     blocks = [];
     node = null;
@@ -64,7 +64,7 @@ export class Spaceship {
 
     shot() {
         const time = new Date().getTime();
-        if (this.lastShot && time - this.lastShot < 500) {
+        if (this.lastShot && time - this.lastShot < 1000) {
             return null;
         }
         this.lastShot = time;

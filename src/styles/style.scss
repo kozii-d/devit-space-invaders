@@ -11,6 +11,10 @@
 @import "shot";
 @import "score";
 @import "modal";
+@import "life-count";
+@import "fake-spaceship";
+@import "underline";
+
 
 * {
   box-sizing: border-box;
@@ -27,7 +31,6 @@ body {
   position: relative;
   height: 100%;
   font-family: 'VT323', monospace;
-  //font-family: sans-serif;
   font-size: 16px;
 
   z-index: 3;
