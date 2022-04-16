@@ -88,6 +88,7 @@ export class Game {
     addEvents() {
         document.addEventListener('keydown', e => {
             this.keyState[e.key] = true;
+            console.log(e.key)
         });
 
         document.addEventListener('keyup', e => {
@@ -117,10 +118,10 @@ export class Game {
     }
 
     useKey() {
-        if (this.keyState.ArrowLeft || this.keyState.a || this.keyState.ф) {
+        if (this.keyState.ArrowLeft || this.keyState.a || this.keyState.ф || this.keyState.A || this.keyState.Ф) {
             this.spaceship.move('moveLeft');
         }
-        if (this.keyState.ArrowRight || this.keyState.d || this.keyState.в) {
+        if (this.keyState.ArrowRight || this.keyState.d || this.keyState.в || this.keyState.D || this.keyState.В) {
             this.spaceship.move('moveRight');
         }
         if (this.keyState[' ']) {
