@@ -53,7 +53,7 @@ export class Game {
         const score = document.createElement('p');
         score.classList.add('score');
         score.style.marginLeft = `${Block.BLOCK_SIZE}px`;
-        score.textContent = 'Score: 0000';
+        score.textContent = 'Score: 0';
 
         const lifeCount = document.createElement('p');
         lifeCount.style.marginRight = `${Block.BLOCK_SIZE}px`;
@@ -139,7 +139,12 @@ export class Game {
             width += Alien.ALIEN_WIDTH_IN_BLOCK * Block.BLOCK_SIZE + Block.BLOCK_SIZE;
         }
         // todo: исправить костыль
-        this.aliens.pop().node.remove();
+        const excess = this.aliens.pop();
+        excess.intervals.forEach(interval => {
+            clearInterval(interval);
+        })
+        excess.isDead = false
+        excess.node.remove();
     }
 
     moveAliens () {

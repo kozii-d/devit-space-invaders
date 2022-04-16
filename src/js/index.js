@@ -1,6 +1,9 @@
 import {Game} from "./game";
-
 import ('../styles/style.scss');
+
+// todo: поправить костыль с лишним пришельцем
+// todo: поправить регистрацю выстрелов пришельцев (сейчас регистрация происходит по кончику выстрела.
+//  Добавить, чтобы весь выстрел считывался
 
 let game = new Game();
 const modal = document.querySelector('.modal');
