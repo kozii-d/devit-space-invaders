@@ -2,6 +2,7 @@ import {Block} from "./block";
 import {Spaceship} from "./spaceship";
 
 export class FakeSpaceship {
+    static BLOCK_SIZE = 15;
     x = 60;
     y = 13;
     blocks = [];
@@ -16,19 +17,20 @@ export class FakeSpaceship {
         const fakeSpeceship = document.createElement('div');
 
         fakeSpeceship.classList.add('fake-spaceship');
-        fakeSpeceship.style.height = Block.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 'px';
-        fakeSpeceship.style.width = Block.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK + 'px';
+        fakeSpeceship.style.height = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 'px';
+        fakeSpeceship.style.width = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK + 'px';
 
 
         this.blocks.push(
-            new Block(Block.BLOCK_SIZE, 0),
-            new Block(0, Block.BLOCK_SIZE),
-            new Block(Block.BLOCK_SIZE, Block.BLOCK_SIZE),
-            new Block(Block.BLOCK_SIZE * 2, Block.BLOCK_SIZE)
+            new Block(FakeSpaceship.BLOCK_SIZE, 0),
+            new Block(0, FakeSpaceship.BLOCK_SIZE),
+            new Block(FakeSpaceship.BLOCK_SIZE, FakeSpaceship.BLOCK_SIZE),
+            new Block(FakeSpaceship.BLOCK_SIZE * 2, FakeSpaceship.BLOCK_SIZE)
         )
 
         this.blocks.forEach(block => {
-            // block.node.style.backgroundColor = '#0f0';
+            block.node.style.height = '15px';
+            block.node.style.width = '15px';
             fakeSpeceship.appendChild(block.node);
             block.node.classList.add('fake-spaceship__block');
         });

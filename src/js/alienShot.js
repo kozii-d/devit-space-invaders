@@ -4,6 +4,7 @@ export class AlienShot {
 
     static SHOT_WIDTH = 4;
     static SHOT_HEIGHT = 20;
+    static SHOT_SPEED = 7;
 
     x = null;
     y = null;
@@ -50,7 +51,7 @@ export class AlienShot {
                   // this.node.remove();
                   clearInterval(shotLoop);
               }
-              this.y += 7;
+              this.y += AlienShot.SHOT_SPEED;
               this.update();
               this.draw();
         }, 1000 / Game.FPS);

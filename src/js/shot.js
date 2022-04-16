@@ -3,6 +3,7 @@ import {Game} from "./game";
 export class Shot {
     static SHOT_WIDTH = 4;
     static SHOT_HEIGHT = 20;
+    static SHOT_SPEED = 7;
 
     x = null;
     y = null;
@@ -48,7 +49,7 @@ export class Shot {
                 this.node.remove();
                 clearInterval(shotLoop);
             }
-            this.y -= 7;
+            this.y -= Shot.SHOT_SPEED;
             this.update();
             this.draw();
         }, 1000 / Game.FPS);
