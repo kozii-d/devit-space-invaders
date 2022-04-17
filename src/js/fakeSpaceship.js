@@ -1,9 +1,10 @@
 import {Block} from "./block";
 import {Spaceship} from "./spaceship";
+import {Game} from './game';
 
 export class FakeSpaceship {
     static BLOCK_SIZE = 15;
-    x = 60;
+    x = Game.GAME_WIDTH - 105;
     y = 13;
     blocks = [];
     node = null;
@@ -14,11 +15,11 @@ export class FakeSpaceship {
     }
 
     create() {
-        const fakeSpeceship = document.createElement('div');
+        const fakeSpaceship = document.createElement('div');
 
-        fakeSpeceship.classList.add('fake-spaceship');
-        fakeSpeceship.style.height = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 'px';
-        fakeSpeceship.style.width = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK + 'px';
+        fakeSpaceship.classList.add('fake-spaceship');
+        fakeSpaceship.style.height = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 'px';
+        fakeSpaceship.style.width = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK + 'px';
 
 
         this.blocks.push(
@@ -31,18 +32,18 @@ export class FakeSpaceship {
         this.blocks.forEach(block => {
             block.node.style.height = '15px';
             block.node.style.width = '15px';
-            fakeSpeceship.appendChild(block.node);
+            fakeSpaceship.appendChild(block.node);
             block.node.classList.add('fake-spaceship__block');
         });
 
 
 
-        return fakeSpeceship;
+        return fakeSpaceship;
     }
 
     draw() {
         this.node.style.top = this.y + 'px';
-        this.node.style.right = this.x + 'px';
+        this.node.style.left = this.x + 'px';
     }
 
 }
