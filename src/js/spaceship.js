@@ -3,7 +3,7 @@ import {Shot} from "./shot";
 import {Game} from "./game";
 import {Element} from "./element";
 
-export class Spaceship extends Element{
+export class Spaceship extends Element {
     static SPEED = 7;
     static SPACESHIP_HEIGHT_IN_BLOCK = 2;
     static SPACESHIP_WIDTH_IN_BLOCK = 3;

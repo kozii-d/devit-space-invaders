@@ -6,7 +6,8 @@
   width: 100%;
   height: 100%;
   z-index: 999;
-  color: #fff;
+  color: $side-color;
+
   &_start {
     position: fixed;
     top: 0;
@@ -14,17 +15,20 @@
     width: 100%;
     height: 100%;
     z-index: 999;
-    color: #fff;
+    color: $side-color;
+
     &__btn {
-      color: #fff;
+      color: $side-color;
       border: none;
       font-size: 40px;
       text-transform: uppercase;
       background: none;
+
       &:hover {
-        color: #0f0;
+        color: $main-color;
       }
     }
+
     &__content {
       display: flex;
       flex-direction: column;
@@ -32,10 +36,11 @@
       position: fixed;
       height: 200px;
       width: 300px;
-      background-color: #000;
-      border: 3px solid #0f0;
+      background-color: $game-background;
+      border: 3px solid $main-color;
     }
   }
+
   &__dialog {
     display: flex;
     justify-content: center;
@@ -43,6 +48,7 @@
     width: 100%;
     height: 100%;
   }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -50,25 +56,28 @@
     position: fixed;
     height: 200px;
     width: 300px;
-    background-color: #000;
-    border: 3px solid #0f0;
+    background-color: $game-background;
+    border: 3px solid $main-color;
   }
+
   &__header {
-    color: #fff;
+    color: $side-color;
     font-size: 60px;
     font-weight: normal;
     margin-top: 20px;
     margin-bottom: 35px;
   }
+
   &__btn {
-    color: #fff;
+    color: $side-color;
     border: none;
     font-weight: bold;
     font-size: 35px;
     text-transform: uppercase;
     background: none;
+
     &:hover {
-      color: #0f0;
+      color: $main-color;
     }
   }
 }

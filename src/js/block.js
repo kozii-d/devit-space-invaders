@@ -1,6 +1,6 @@
 import {Element} from "./element";
 
-export class Block extends Element{
+export class Block extends Element {
     static BLOCK_SIZE = 15;
 
     constructor(x, y) {

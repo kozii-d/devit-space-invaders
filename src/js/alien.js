@@ -3,11 +3,12 @@ import {AlienShot} from "./alienShot";
 import {Game} from "./game";
 import {Element} from "./element";
 
-export class Alien extends Element{
+export class Alien extends Element {
     static ALIEN_HEIGHT_IN_BLOCK = 3;
     static ALIEN_WIDTH_IN_BLOCK = 3;
 
     isDead = false;
+    shotTimeout = null;
 
     blocks = [];
     intervals = [];
@@ -18,7 +19,6 @@ export class Alien extends Element{
         this.x = x;
         this.y = y;
         this.node = this.create();
-        this.shot();
         this.draw();
         this.updateLoop();
     }
@@ -49,31 +49,24 @@ export class Alien extends Element{
         return alien;
     }
 
-    randomInteger(min, max) {
-        let rand = min + Math.random() * (max + 1 - min);
-        return Math.floor(rand);
-    }
-
     shot() {
-        const alienShot = setInterval(() => {
-            this.shots.push(new AlienShot(this.x + Block.BLOCK_SIZE * 1.5, this.y + Block.BLOCK_SIZE * 2));
-        }, this.randomInteger(1000, 35000));
-        this.intervals.push(alienShot);
+        this.shots.push(new AlienShot(this.x - (AlienShot.SHOT_WIDTH / 2) + Block.BLOCK_SIZE * 1.5, this.y + Block.BLOCK_SIZE * 2));
     }
 
     updateLoop() {
-       const alienLoop = setInterval(() => {
+        const alienLoop = setInterval(() => {
+            this.shots.forEach(shot => {
+                if (shot.isDead) {
+                    shot.node.remove();
+                }
+            })
 
-           this.shots.forEach(shot => {
-               if (shot.isDead) {
-                   shot.node.remove();
-               }
-           })
+            this.shots = this.shots.filter(shot => !shot.isDead);
 
-           this.shots = this.shots.filter(shot => !shot.isDead);
-
-           if (this.isDead) {
+            if (this.isDead) {
+                clearTimeout(this.shotTimeout);
                 this.intervals.forEach(interval => {
+                    clearTimeout(interval);
                     clearInterval(interval);
                 })
             }

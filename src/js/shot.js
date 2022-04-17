@@ -18,6 +18,7 @@ export class Shot extends Element {
         this.loop()
 
     }
+
     create() {
         const gameField = document.querySelector('.game-field');
         const shot = document.createElement('div');

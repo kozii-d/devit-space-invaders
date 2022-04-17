@@ -1,7 +1,7 @@
 import {Game} from "./game";
 import {Element} from "./element";
 
-export class AlienShot extends Element{
+export class AlienShot extends Element {
 
     static SHOT_WIDTH = 4;
     static SHOT_HEIGHT = 20;
@@ -38,14 +38,14 @@ export class AlienShot extends Element{
     }
 
     loop() {
-          const shotLoop = setInterval(() => {
-              if (this.isDead) {
-                  // this.node.remove();
-                  clearInterval(shotLoop);
-              }
-              this.y += AlienShot.SHOT_SPEED;
-              this.deathUpdate();
-              this.draw();
+        const shotLoop = setInterval(() => {
+            if (this.isDead) {
+                // this.node.remove();
+                clearInterval(shotLoop);
+            }
+            this.y += AlienShot.SHOT_SPEED;
+            this.deathUpdate();
+            this.draw();
         }, 1000 / Game.FPS);
     }
 
