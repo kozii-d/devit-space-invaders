@@ -78,9 +78,8 @@ export class Alien extends Element{
                 })
             }
 
-
         }, 1000 / Game.FPS);
         this.intervals.push(alienLoop);
-
     }
+
 }

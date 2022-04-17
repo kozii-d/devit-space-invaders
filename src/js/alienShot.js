@@ -14,11 +14,10 @@ export class AlienShot extends Element{
         this.x = x;
         this.y = y;
         this.node = this.create();
-
         this.draw();
-
         this.loop();
     }
+
     create() {
         const gameField = document.querySelector('.game-field');
         const shot = document.createElement('div');
@@ -31,7 +30,7 @@ export class AlienShot extends Element{
         return shot;
     }
 
-    update() {
+    deathUpdate() {
         if (this.x > Game.GAME_WIDTH || this.y > Game.GAME_HEIGHT - AlienShot.SHOT_HEIGHT) {
             this.isDead = true;
             this.node.remove();
@@ -45,9 +44,10 @@ export class AlienShot extends Element{
                   clearInterval(shotLoop);
               }
               this.y += AlienShot.SHOT_SPEED;
-              this.update();
+              this.deathUpdate();
               this.draw();
         }, 1000 / Game.FPS);
     }
+
 }
 

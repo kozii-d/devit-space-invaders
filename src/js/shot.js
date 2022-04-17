@@ -30,7 +30,7 @@ export class Shot extends Element {
         return shot;
     }
 
-    update() {
+    deathUpdate() {
         if (this.x < 0 || this.y < 0) {
             this.isDead = true;
         }
@@ -43,7 +43,7 @@ export class Shot extends Element {
                 clearInterval(shotLoop);
             }
             this.y -= Shot.SHOT_SPEED;
-            this.update();
+            this.deathUpdate();
             this.draw();
         }, 1000 / Game.FPS);
     }

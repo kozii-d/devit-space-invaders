@@ -23,7 +23,6 @@ export class FakeSpaceship extends Element {
         fakeSpaceship.style.height = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 'px';
         fakeSpaceship.style.width = FakeSpaceship.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK + 'px';
 
-
         this.blocks.push(
             new Block(FakeSpaceship.BLOCK_SIZE, 0),
             new Block(0, FakeSpaceship.BLOCK_SIZE),
@@ -37,8 +36,6 @@ export class FakeSpaceship extends Element {
             fakeSpaceship.appendChild(block.node);
             block.node.classList.add('fake-spaceship__block');
         });
-
-
 
         return fakeSpaceship;
     }

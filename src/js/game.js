@@ -3,6 +3,7 @@ import {Alien} from "./alien";
 import {Block} from "./block";
 import {AlienShot} from "./alienShot";
 import {FakeSpaceship} from "./fakeSpaceship";
+import {Shot} from "./shot";
 
 export class Game {
     static FPS = 60;
@@ -76,7 +77,7 @@ export class Game {
     updateLoop() {
         const gameLoop = setInterval(() => {
             this.useKey();
-            this.checkShots();
+            this.checkHittingAlien();
             this.isSpaceshipDead();
             this.updateScoreAndLife();
             this.checkEndGame();
@@ -95,15 +96,19 @@ export class Game {
         });
     }
 
-    checkShots() {
+    checkHittingAlien() {
         this.shots.forEach(shot => {
             if (shot.isDead) {
                 shot.node.remove();
             }
             this.aliens.forEach(alien => {
                 // регистрация попаданий в пришельцев
-                if ((alien.y >= shot.y - Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK && alien.y <= shot.y)
-                && (alien.x >= shot.x - Block.BLOCK_SIZE * Alien.ALIEN_WIDTH_IN_BLOCK && alien.x <= shot.x)) {
+                const isHitOnLeftX = shot.x >= alien.x && shot.x <= alien.x + Block.BLOCK_SIZE * Alien.ALIEN_WIDTH_IN_BLOCK;
+                const isHitOnRightX = shot.x + Shot.SHOT_WIDTH >= alien.x && shot.x + Shot.SHOT_WIDTH <= alien.x + Block.BLOCK_SIZE * Alien.ALIEN_WIDTH_IN_BLOCK;
+                const isHitOnTopY = shot.y >= alien.y && shot.y <= alien.y + Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK;
+                const isHitOnBottomY = shot.y + Shot.SHOT_HEIGHT >= alien.y && shot.y  + Shot.SHOT_HEIGHT <= alien.y + Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK;
+
+                if ((isHitOnLeftX || isHitOnRightX) && (isHitOnTopY || isHitOnBottomY)) {
                     shot.isDead = true;
                     shot.node.remove();
                     alien.isDead = true;
@@ -204,8 +209,6 @@ export class Game {
         if (this.spaceship.y <= lastAlien.y + (Block.BLOCK_SIZE * Alien.ALIEN_HEIGHT_IN_BLOCK)) {
             this.isEndGame = true;
         }
-
-
     }
 
     updateScoreAndLife() {
@@ -216,17 +219,35 @@ export class Game {
     }
 
     isSpaceshipDead() {
-        // регистрация выстрелов от пришельцев
+        // регистрация попаданий в кораблик
         this.aliens.forEach(alien => {
             alien.shots.forEach(shot => {
-                if ((shot.x >= this.spaceship.x && shot.x <= this.spaceship.x + Block.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK)
-                && (shot.y + AlienShot.SHOT_HEIGHT >= this.spaceship.y && shot.y  + AlienShot.SHOT_HEIGHT <= this.spaceship.y + Block.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK)) {
+                const isHitOnLeftX = shot.x >= this.spaceship.x && shot.x <= this.spaceship.x + Block.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK;
+                const isHitOnRightX = shot.x + AlienShot.SHOT_WIDTH >= this.spaceship.x && shot.x + AlienShot.SHOT_WIDTH <= this.spaceship.x + Block.BLOCK_SIZE * Spaceship.SPACESHIP_WIDTH_IN_BLOCK;
+                const isHitOnTopY = shot.y >= this.spaceship.y && shot.y <= this.spaceship.y + Block.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK;
+                const isHitOnBottomY = shot.y + AlienShot.SHOT_HEIGHT >= this.spaceship.y && shot.y  + AlienShot.SHOT_HEIGHT <= this.spaceship.y + Block.BLOCK_SIZE * Spaceship.SPACESHIP_HEIGHT_IN_BLOCK;
+
+                if ((isHitOnLeftX || isHitOnRightX) && (isHitOnTopY || isHitOnBottomY)) {
                     shot.isDead = true;
                     this.spaceship.life--;
                     if (!this.spaceship.life) {
                         this.isEndGame = true;
                     }
                 }
+                // Регистрация столкновения выстрелов
+                this.shots.forEach(spaceshipShot => {
+                    const isHitOnLeftX = shot.x >= spaceshipShot.x && shot.x <= spaceshipShot.x + Shot.SHOT_WIDTH;
+                    const isHitOnRightX = shot.x + AlienShot.SHOT_WIDTH >= spaceshipShot.x && shot.x + AlienShot.SHOT_WIDTH <= spaceshipShot.x + Shot.SHOT_WIDTH;
+                    const isHitOnTopY = shot.y >= spaceshipShot.y && shot.y <= spaceshipShot.y + Shot.SHOT_HEIGHT;
+                    const isHitOnBottomY = shot.y + AlienShot.SHOT_HEIGHT >= spaceshipShot.y && shot.y  + AlienShot.SHOT_HEIGHT <= spaceshipShot.y + Shot.SHOT_HEIGHT;
+
+                    if ((isHitOnLeftX || isHitOnRightX) && (isHitOnTopY || isHitOnBottomY)) {
+                        shot.isDead = true;
+                        spaceshipShot.isDead = true;
+                        this.score += 5;
+
+                    }
+                })
             })
         })
     }
