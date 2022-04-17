@@ -1,18 +1,16 @@
 import {Game} from "./game";
+import {Element} from "./element";
 
-export class AlienShot {
+export class AlienShot extends Element{
 
     static SHOT_WIDTH = 4;
     static SHOT_HEIGHT = 20;
     static SHOT_SPEED = 7;
 
-    x = null;
-    y = null;
-    node = null;
-
     isDead = false;
 
     constructor(x, y) {
+        super();
         this.x = x;
         this.y = y;
         this.node = this.create();
@@ -31,11 +29,6 @@ export class AlienShot {
         shot.classList.add('shot');
 
         return shot;
-    }
-
-    draw() {
-        this.node.style.top = this.y + 'px';
-        this.node.style.left = this.x + 'px';
     }
 
     update() {

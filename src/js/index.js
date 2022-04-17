@@ -1,4 +1,5 @@
 import {Game} from "./game";
+
 import ('../styles/style.scss');
 
 // todo: поправить костыль с лишним пришельцем
@@ -12,4 +13,5 @@ let modalBnt = document.querySelector('.modal__btn');
 modalBnt.addEventListener('click', () => {
     modal.style.display = 'none';
     game = game.restartGame();
-})
+});
+

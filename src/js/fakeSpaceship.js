@@ -1,15 +1,17 @@
 import {Block} from "./block";
 import {Spaceship} from "./spaceship";
 import {Game} from './game';
+import {Element} from "./element";
 
-export class FakeSpaceship {
+export class FakeSpaceship extends Element {
     static BLOCK_SIZE = 15;
-    x = Game.GAME_WIDTH - 105;
-    y = 13;
+
     blocks = [];
-    node = null;
 
     constructor() {
+        super();
+        this.x = Game.GAME_WIDTH - 105;
+        this.y = 13;
         this.node = this.create();
         this.draw();
     }
@@ -40,10 +42,4 @@ export class FakeSpaceship {
 
         return fakeSpaceship;
     }
-
-    draw() {
-        this.node.style.top = this.y + 'px';
-        this.node.style.left = this.x + 'px';
-    }
-
 }

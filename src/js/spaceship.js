@@ -1,20 +1,22 @@
 import {Block} from "./block";
 import {Shot} from "./shot";
 import {Game} from "./game";
+import {Element} from "./element";
 
-export class Spaceship {
+export class Spaceship extends Element{
     static SPEED = 7;
     static SPACESHIP_HEIGHT_IN_BLOCK = 2;
     static SPACESHIP_WIDTH_IN_BLOCK = 3;
 
-    x = (Game.GAME_WIDTH / 2) - (Block.BLOCK_SIZE * 1.5);
-    y = Game.GAME_HEIGHT - Block.BLOCK_SIZE * (Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 1);
     life = 3;
     blocks = [];
-    node = null;
     lastShot = null;
     isDead = false;
+
     constructor() {
+        super();
+        this.x = (Game.GAME_WIDTH / 2) - (Block.BLOCK_SIZE * 1.5);
+        this.y = Game.GAME_HEIGHT - Block.BLOCK_SIZE * (Spaceship.SPACESHIP_HEIGHT_IN_BLOCK + 1);
         this.node = this.create();
         this.draw();
     }
@@ -44,11 +46,6 @@ export class Spaceship {
 
 
         return spaceShipBody;
-    }
-
-    draw() {
-        this.node.style.top = this.y + 'px';
-        this.node.style.left = this.x + 'px';
     }
 
     move(direction) {

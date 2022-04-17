@@ -1,22 +1,20 @@
 import {Block} from "./block";
 import {AlienShot} from "./alienShot";
 import {Game} from "./game";
+import {Element} from "./element";
 
-export class Alien {
+export class Alien extends Element{
     static ALIEN_HEIGHT_IN_BLOCK = 3;
     static ALIEN_WIDTH_IN_BLOCK = 3;
 
-    x = null;
-    y = null;
-    node = null;
     isDead = false;
 
     blocks = [];
     intervals = [];
     shots = [];
 
-
     constructor(x, y) {
+        super();
         this.x = x;
         this.y = y;
         this.node = this.create();
@@ -49,11 +47,6 @@ export class Alien {
         });
 
         return alien;
-    }
-
-    draw() {
-        this.node.style.top = this.y + 'px';
-        this.node.style.left = this.x + 'px';
     }
 
     randomInteger(min, max) {
